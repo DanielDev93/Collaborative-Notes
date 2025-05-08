@@ -11,33 +11,33 @@ The Collaborative Notes App is a real-time note-taking application built using R
 - **Performance Optimization**: The app uses techniques like memoization and efficient data structures to ensure smooth performance, even with large note lists and frequent updates.
 
 ## Directory Structure
-
+```bash
 collaborative-notes/
-├── client/
+├── client/                         # React frontend code
 │   ├── src/
 │   │   ├── pages/
-│   │   │   ├── Home.jsx
-│   │   │   ├── NoteEditor.jsx
-│   │   ├── services/
-│   │   │   ├── api.js
-│   │   │   ├── socket.js
+│   │   │   ├── Home.jsx            # Home Screen
+│   │   │   ├── NoteEditor.jsx      # Note Editing Screen
+│   │   ├── services/               
+│   │   │   ├── api.js              # API service
+│   │   │   ├── socket.js           # WebScoket service
 │   │   ├── ...
 │   │   └── main.jsx
 │   ├── package-lock.json
 │   ├── package.json
 │   └── vite.config.js
-├── server/
+├── server/                         # Backend Node.js API code
 │   ├── controllers/
-│   │   ├── noteController.js
+│   │   ├── noteController.js       # Controller for note-related operations
 │   ├── routes/
-│   │   ├── notes.js
+│   │   ├── notes.js                # Routes for note-related endpoints
 │   ├── models/
-│   │   ├── noteStore.js
+│   │   ├── noteStore.js            # Model for note data storage - In Memory store
 │   ├── index.js
 │   └── package.json
 ├── .gitignore
 └── package.json
-
+```
 ## Technologies Used
 
 - **Frontend**: React, React-Quill, React Router, Axios, Socket.IO-client, Tailwind CSS
