@@ -3,7 +3,11 @@ const express = require('express');
 const router = express.Router();
 const ctrl = require('../controllers/noteController');
 
-router.get('/', (req, res) => res.json({ success: true, data: ctrl.getNotes() }));
+router.get('/', (req, res) => {
+  const { start = 0, end = 10 } = req.query;
+  const notes = ctrl.getNotes(start, end);
+  res.json({ success: true, data: notes });
+});
 
 router.get('/:id', (req, res) => {
   const note = ctrl.getNote(req.params.id);
