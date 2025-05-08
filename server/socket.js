@@ -22,6 +22,14 @@ function initSocket(server) {
       const ok = ctrl.deleteNote(id);
       if (ok) io.emit("note-deleted", { id });
     });
+
+    socket.on("note-editing", (data) => {
+      socket.broadcast.emit("note-editing", data)
+    });
+
+    socket.on("editing-status", (data) => {
+      socket.broadcast.emit("editing-status", data)
+    });
   });
 
   return io;
