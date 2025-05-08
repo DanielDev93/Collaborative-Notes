@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { getNotes, deleteNote } from "../services/api";
+import { getNotes } from "../services/api";
 import { useEffect, useState } from "react";
+import { socket } from "../services/socket"; // Import socket connection
 
 function Home() {
   const [notes, setNotes] = useState([]);
@@ -12,16 +13,41 @@ function Home() {
   }
 
   useEffect(() => {
+    const handleNoteCreated = (note) => {
+      setNotes((prev) => [...prev, note]);
+    };
+
+    const handleNoteUpdated = (updatedNote) => {
+      setNotes((prev) =>
+        prev.map((note) => note.id === updatedNote.id ? updatedNote : note)
+      );
+    };
+
+    const handleNoteDeleted = ({ id }) => {
+      setNotes((prev) =>
+        prev.filter((note) => note.id !== id)
+      );
+    }
+
+    socket.on("note-created", handleNoteCreated);
+    socket.on("note-updated", handleNoteUpdated);
+    socket.on("note-deleted", handleNoteDeleted);
     fetchNotes();
+
+    return () => {
+      socket.off("note-created", handleNoteCreated);
+      socket.off("note-updated", handleNoteUpdated);
+      socket.off("note-deleted", handleNoteDeleted);
+    };
   }, []);
 
   const handleNewNote = () => {
     navigate(`/note/create`);
   };
 
-  const handleDeleteNote = async (id) => {
-    const resp = await deleteNote(id);
-    if (resp.success) setNotes(notes => notes.filter((n) => n.id !== id));
+  const handleDeleteNote = (id) => {
+    // Emit 'note-delete' socket event
+    socket.emit("note-delete", {id});
   }
 
   return (

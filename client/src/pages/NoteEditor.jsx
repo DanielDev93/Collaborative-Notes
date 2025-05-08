@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { createNote, getNoteById, saveNote } from "../services/api";
+import { getNoteById } from "../services/api";
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { socket } from "../services/socket"; // Import socket connection
 
 function NoteEditor() {
   const { noteId } = useParams(); // 'create' means new note, otherwise it's an existing note ID
@@ -24,13 +25,15 @@ function NoteEditor() {
     }
   },[noteId]);
 
-  const save = () => {
-    saveNote({ id: noteId, title, content });
+  const save = async () => {
+    // Emit 'note-update' socket event
+    socket.emit('note-update', { id: noteId, title, content });
     navigate("/");
   }
 
   const add = () => {
-    createNote({ title, content });
+    // Emit 'note-create' socket event
+    socket.emit('note-create', { title, content });
     navigate("/");
   }
 

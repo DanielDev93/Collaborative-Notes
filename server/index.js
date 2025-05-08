@@ -1,35 +1,25 @@
 // server/index.js
 const express = require('express');
 const http = require('http');
-const { Server } = require('socket.io');
+const initSocket = require('./socket');
 const cors = require('cors');
 const noteRoutes = require('./routes/notes');
 
 const app = express();
 const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5173", // Vite default
-    methods: ["GET", "POST"]
-  }
-});
+const io = initSocket(server); // initializes socket
 
 app.use(cors());
 app.use(express.json());
-app.use('/notes', noteRoutes);
 
-io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
-
-  socket.on('note-update', (data) => {
-    socket.broadcast.emit('note-update', data); // broadcast to others
-  });
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
-  });
+// Make io accessible in routes
+app.use((req, res, next) => {
+  req.io = io;
+  next();
 });
+
+app.use('/notes', noteRoutes);
 
 const PORT = 3001;
 server.listen(PORT, () => {
