@@ -1,7 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function NoteEditor() {
   const { id } = useParams();
+  const navigate = useNavigate();
   return (
     <div className="p-4 space-y-4">
       Note Editor page
