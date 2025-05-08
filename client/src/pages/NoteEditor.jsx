@@ -52,7 +52,6 @@ function NoteEditor() {
   useEffect(() => {
     if (noteId === "create") return;
     if (isEmitAllowed) {
-      console.log("send")
       socket.emit("note-editing", { id: noteId, title, content });
     } 
   }, [title, content, isEmitAllowed]);
@@ -70,7 +69,6 @@ function NoteEditor() {
   };
 
   const handleContentChange = (val) => {
-    console.log(emitTimeout.current, isFirstLoad.current)
     if (isFirstLoad.current) {
       isFirstLoad.current = false;
       return;

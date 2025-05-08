@@ -2,9 +2,9 @@ import axios from "axios";
 
 const baseUrl = "http://localhost:3001" || import.meta.env.VITE_API_DOMAIN
 
-export const getNotes = async() => {
+export const getNotes = async(start, end) => {
   try {
-    const resp = await axios.get(`${baseUrl}/notes`);
+    const resp = await axios.get(`${baseUrl}/notes?start=${start}&end=${end}`);
     return resp.data;
   } catch (err) {
     return err.response.data;
