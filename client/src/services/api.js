@@ -11,9 +11,9 @@ export const getNotes = async() => {
   }
 }
 
-export const createNote = async(note) => {
+export const createNote = async({ title, content }) => {
   try {
-    const resp = await axios.post(`${baseUrl}/notes`, note);
+    const resp = await axios.post(`${baseUrl}/notes`, { title, content });
     return resp.data;
   } catch (err) {
     return err.response.data;

@@ -16,8 +16,8 @@ const io = new Server(server, {
 });
 
 app.use(cors());
-app.use('/notes', noteRoutes);
 app.use(express.json());
+app.use('/notes', noteRoutes);
 
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);

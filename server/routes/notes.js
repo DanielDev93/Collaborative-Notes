@@ -1,7 +1,7 @@
 // routes/notes.js
 const express = require('express');
 const router = express.Router();
-const v4 = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const notes = new Map(); // In-memory store
 
@@ -34,10 +34,11 @@ router.get('/:id', (req, res) => {
 
 // Create a new note
 router.post('/', (req, res) => {
+  console.log(req.body);
   const { title, content } = req.body;
-  const newId = v4();
+  const newId = uuidv4();
   const newNote = { id: newId, title, content, updatedAt: new Date() };
-  notes.set(id, newNote);
+  notes.set(newId, newNote);
   res.json({ success: true, data: newNote });
 });
 

@@ -21,7 +21,7 @@ function Home() {
 
   const handleDeleteNote = async (id) => {
     const resp = await deleteNote(id);
-    if (resp.data) setNotes(notes => notes.filter((n) => n.id !== id));
+    if (resp.success) setNotes(notes => notes.filter((n) => n.id !== id));
   }
 
   return (
